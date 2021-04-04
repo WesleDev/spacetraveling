@@ -60,6 +60,11 @@ export default function Post({
   navigation,
   preview,
 }: PostProps): JSX.Element {
+  const router = useRouter();
+  if (router.isFallback) {
+    return <h1>Carregando...</h1>;
+  }
+
   const totalWords = post.data.content.reduce((total, contentItem) => {
     total += contentItem.heading.split(' ').length;
 
@@ -69,12 +74,6 @@ export default function Post({
   }, 0);
 
   const readTime = Math.ceil(totalWords / 200);
-
-  const router = useRouter();
-
-  if (router.isFallback) {
-    return <h1>Carregando...</h1>;
-  }
 
   const formatedDate = format(
     new Date(post.first_publication_date),
